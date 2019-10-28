@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/dashboard.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="{% static 'main/js/dash.js' %}"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="mySidenav" class="sidenav">
+            <h3>
+                {{ user.first_name }} {{ user.last_name }}
+            </h3>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="/dashboard">Home</a>
+            <a href="#">About</a>
+            <a href="#">Events</a>
+            <a href="#">Team</a>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Works <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li class="dropdown-header">Dropdown heading</li>
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                </ul>
+            </li>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+            <a href="#">Follow me</a>
+            <a href="/logout">Log Out</a>
+        </div>
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Navigation</span>
+        <h1>Performance Information and Statistics</h1>
+        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">New Lead!</button>
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- <a href="/createprospect">New Lead</a> -->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Create a new lead! </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/createprospect" method="post">
+                            {% csrf_token %}
+                            <h6>Name:</h6>
+                            <input type="text" name="pros_name">
+                            <h6>Followup Date:</h6>
+                            <input type="date" name="pros_followup">
+                            <h6>Address:</h6>
+                            <input type="text" name="pros_address">
+                            <h6>Phone number:</h6>
+                            <input type="text" name="pros_phone">
+                            <h6>Email Address: </h6>
+                            <input type="email" name="pros_email">
+                            <h6>Step:</h6>
+                            <input type="text" name="pros_step">
+                            <h6>Notes:</h6>
+                            <input type="textarea" name="pros_notes">
+                            <input type="hidden" name="user">
+                            <input type="submit">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <tr class="headercoloring">
+                <th class="w-50">Name</th>
+                <th>Sales Process Step</th>
+                <th>Follow up date</th>
+            </tr>
+            {% for p in user.Prospects.all %}
+            <tr class="tablecolor">
+                <td><a href="/prospects/{{p.id}}">{{p.name}}</a></td>
+                <td>{{p.step}}</td>
+                <td>{{p.followup}}</td>
+            </tr>
+            {% endfor%}
+        </table>
+    </div>
+    </div>
+</body>
+</html>

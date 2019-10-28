@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/css/single.css' %}">
+    <script src="{% static 'main/js/single.js' %}"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="mySidenav" class="sidenav">
+            <h3>
+                {{ user.first_name }} {{ user.last_name }}
+            </h3>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="/dashboard">Home</a>
+            <a href="#">About</a>
+            <a href="#">Events</a>
+            <a href="#">Team</a>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Works <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li class="dropdown-header">Dropdown heading</li>
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                </ul>
+            </li>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+            <a href="#">Follow me</a>
+            <a href="/logout">Log Out</a>
+        </div>
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Navigation</span>
+        <div class="jumbotron">
+            <h1>{{prospect.name}}</h1>
+            <h6>{{prospect.created_at}}</h6>
+            <h6>{{prospect.followup}}</h6>
+            <h4>{{prospect.address}}</h4>
+            <h4>{{prospect.phone}}</h4>
+            <h4>{{prospect.email}}</h4>
+            <h4>{{prospect.step}}</h4>
+            <form action="/prospects/{{prospect.id}}/notes" method="post">
+                {% csrf_token %}
+                <input type="text" name="more_pros_note" value="New Notes?">
+                <input type="hidden" name="user" value={{prospect}}>
+                <input type="submit">
+            </form>
+        </div>
+        <div class="table">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for n in prospect.notes.all %}
+                    <tr>
+                        <td>{{n.notes}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
